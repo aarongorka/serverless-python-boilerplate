@@ -1,7 +1,7 @@
 version: '3'
 services:
   serverless:
-    image: amaysim/serverless:1.20.1
+    image: amaysim/serverless:1.23.0
     env_file: .env
     volumes:
       - ~/.aws:/root/.aws:Z
@@ -24,19 +24,7 @@ services:
       driver: syslog
       options:
         syslog-address: "tcp://127.0.0.1:9001"
-  test:
-    image: lambci/lambda:build-python3.6
-    env_file: .env
-    working_dir: /usr/src/app
-    entrypoint: []
-    command: ["make", "_run"]
-    volumes:
-      - ./:/usr/src/app:Z
-    logging:
-      driver: gelf
-      options:
-        gelf-address: "udp://127.0.0.1:12201"
-  virtualenv:
+  lambda-build:
     image: lambci/lambda:build-python3.6
     env_file: .env
     working_dir: /usr/src/app
