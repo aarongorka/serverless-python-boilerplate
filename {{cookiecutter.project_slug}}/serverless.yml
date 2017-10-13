@@ -1,4 +1,4 @@
-service: MV-${env:REALM}-Foobar
+service: MV-${env:REALM}-{{ cookiecutter.repo_name }}
 
 provider:
   name: aws
@@ -46,10 +46,10 @@ custom:
       - functionDuration
 
 functions:
-  foobar:
-    handler: lambda.handler
+  {{ cookiecutter.repo_name }}:
+    handler: lambda.{{ cookiecutter.repo_name }}_handler
     events:
-      - http: GET foobar
+      - http: GET {{ cookiecutter.repo_name }}
 
 resources:
   Resources:
@@ -61,7 +61,7 @@ resources:
     BasePathMapping:
       Type: "AWS::ApiGateway::BasePathMapping"
       Properties:
-#        BasePath: "account"
+        BasePath: "{{ cookiecutter.repo_name }}"
         DomainName:
           Ref: DomainName
         RestApiId: { "Ref": "ApiGatewayRestApi" }

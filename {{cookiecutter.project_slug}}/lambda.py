@@ -6,8 +6,8 @@ import json
 
 aws_lambda_logging.setup(level=os.environ.get('LOGLEVEL', 'INFO'), env=os.environ.get('ENV'))
 
-def foobar_handler(event, context):
-    """Handler for foobars"""
+def {{ cookiecutter.repo_name }}_handler(event, context):
+    """Handler for {{ cookiecutter.repo_name }}"""
 
     aws_lambda_logging.setup(level=os.environ.get('LOGLEVEL', 'INFO'), env=os.environ.get('ENV'))
     aws_lambda_logging.setup(level=os.environ.get('LOGLEVEL', 'INFO'), env=os.environ.get('ENV'))
