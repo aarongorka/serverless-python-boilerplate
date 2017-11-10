@@ -11,19 +11,19 @@ def {{ cookiecutter.repo_name }}_handler(event, context):
 
     aws_lambda_logging.setup(level=os.environ.get('LOGLEVEL', 'INFO'), env=os.environ.get('ENV'))
     aws_lambda_logging.setup(level=os.environ.get('LOGLEVEL', 'INFO'), env=os.environ.get('ENV'))
-    logging.debug(json.dumps({'action': 'initialising'}))
+    logging.debug(json.dumps({'message': 'initialising'}))
     try:
-        logging.debug(json.dumps({'action': 'logging event', 'status': 'success', 'event': event}))
+        logging.debug(json.dumps({'message': 'logging event', 'status': 'success', 'event': event}))
     except:
-        logging.exception(json.dumps({'action': 'logging event', 'status': 'failed'}))
+        logging.exception(json.dumps({'message': 'logging event', 'status': 'failed'}))
         raise
 
     try:
         # do a thing
         thing = event
-        logging.debug(json.dumps({'action': 'thing', 'status': 'success', 'thing': thing}))
+        logging.debug(json.dumps({'message': 'thing', 'status': 'success', 'thing': thing}))
     except:
-        logging.exception(json.dumps({"action": "thing", "status": "failed"}))
+        logging.exception(json.dumps({"message": "thing", "status": "failed"}))
         response = {
             "statusCode": 503,
             'headers': {
@@ -40,5 +40,5 @@ def {{ cookiecutter.repo_name }}_handler(event, context):
             'Content-Type': 'application/json',
         }
     }
-    logging.info(json.dumps({'action': 'responding', 'response': response}))
+    logging.info(json.dumps({'message': 'responding', 'response': response}))
     return response

@@ -23,13 +23,13 @@ deps: $(DOTENV_TARGET)
 	docker-compose run $(USER_SETTINGS) --rm serverless make _deps
 
 build: $(DOTENV_TARGET)
-	docker-compose run $(USER_SETTINGS) --rm virtualenv make _build
+	docker-compose run $(USER_SETTINGS) --rm lambda-build make _build
 
 deploy: $(ENV_RM_REQUIRED) $(DOTENV_TARGET) $(ASSUME_REQUIRED)
 	docker-compose run $(USER_SETTINGS) --rm serverless make _deploy
 
 unitTest: $(ASSUME_REQUIRED) $(DOTENV_TARGET)
-	docker-compose run $(USER_SETTINGS) --rm lambda slack_cloudfront_bot.unit_test
+	docker-compose run $(USER_SETTINGS) --rm lambda {{cookiecutter.project_slug}}.unit_test
 
 smokeTest: $(DOTENV_TARGET) $(ASSUME_REQUIRED)
 	docker-compose run $(USER_SETTINGS) --rm serverless make _smokeTest
@@ -37,16 +37,11 @@ smokeTest: $(DOTENV_TARGET) $(ASSUME_REQUIRED)
 remove: $(DOTENV_TARGET)
 	docker-compose run $(USER_SETTINGS) --rm serverless make _deps _remove
 
-unzip: $(DOTENV_TARGET) $(ARTIFACT_PATH)
-	docker-compose run $(USER_SETTINGS) --rm virtualenv make _unzip
-
 styleTest: $(DOTENV_TARGET)
-	docker-compose run $(USER_SETTINGS) --rm virtualenv make _unzip
-	docker-compose run $(USER_SETTINGS) --rm pep8 --ignore 'E501,E128' *.py
+	docker-compose run $(USER_SETTINGS) --rm pep8 --ignore 'E501,E128' {{cookiecutter.project_slug}}/*.py
 
 run: $(DOTENV_TARGET)
-	docker-compose run $(USER_SETTINGS) --rm lambda lambda.invalidate
-.PHONY: run
+	docker-compose run $(USER_SETTINGS) --rm lambda {{cookiecutter.project_slug}}.{{cookiecutter.project_slug}}_handler
 
 assumeRole: $(DOTENV_TARGET)
 	docker run --rm -e "AWS_ACCOUNT_ID" -e "AWS_ROLE" amaysim/aws:1.1.3 assume-role.sh >> .env
@@ -54,7 +49,7 @@ assumeRole: $(DOTENV_TARGET)
 test: $(DOTENV_TARGET) styleTest unitTest
 
 shell: $(DOTENV_TARGET)
-	docker-compose run $(USER_SETTINGS) --rm virtualenv sh
+	docker-compose run $(USER_SETTINGS) --rm lambda-build sh
 
 ##########
 # Others #
@@ -80,28 +75,12 @@ $(DOTENV):
 	cp $(DOTENV) .env
 .PHONY: $(DOTENV)
 
-$(PACKAGE_DIR)/.piprun: requirements.txt
+_build: requirements.txt
 	pip install -r requirements.txt -t $(PACKAGE_DIR)
-	@touch "$(PACKAGE_DIR)/.piprun"
 
-_build: $(ARTIFACT_PATH)
-
-$(ARTIFACT_PATH): $(DOTENV_TARGET) *.py $(PACKAGE_DIR)/.piprun
-	cp *.py $(PACKAGE_DIR)
+$(ARTIFACT_PATH): $(DOTENV_TARGET) src/
+	cp -pr src/ $(PACKAGE_DIR)
 	cd $(PACKAGE_DIR) && zip -rq ../package .
-
-run/lambda.py: $(ARTIFACT_PATH)
-	mkdir -p run/
-	cd run && unzip -qo -d . ../$(ARTIFACT_PATH)
-	@touch run/lambda.py
-
-_unzip: run/lambda.py
-
-run/.lastrun: $(ARTIFACT_PATH)
-	cd run && ./lambda.py
-	@touch run/.lastrun
-
-_run: run/.lastrun docker-compose.yml Makefile
 
 # Install node_modules for serverless plugins
 _deps: node_modules.zip
