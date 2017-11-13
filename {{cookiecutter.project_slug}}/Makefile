@@ -77,7 +77,7 @@ $(DOTENV):
 
 _build: requirements.txt
 	pip install -r requirements.txt -t $(PACKAGE_DIR)
-	cp -pr {{ cookiecutter.python_package }} $(PACKAGE_DIR)
+	cp -a {{ cookiecutter.python_package }}/. $(PACKAGE_DIR)/
 	cd $(PACKAGE_DIR) && zip -rq ../package .
 
 $(ARTIFACT_PATH): $(DOTENV_TARGET) _build
