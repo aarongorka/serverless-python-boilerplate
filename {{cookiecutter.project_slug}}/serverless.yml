@@ -47,10 +47,10 @@ custom:
       - functionDuration
 
 functions:
-  {{ cookiecutter.function }}:
-    handler: {{ cookiecutter.python_package }}.{{ cookiecutter.function }}
+  {{ cookiecutter.handler }}:
+    handler: {{ cookiecutter.python_package }}.{{ cookiecutter.handler }}
     events:
-      - http: GET {{ cookiecutter.function }}
+      - http: GET {{ cookiecutter.handler }}
 
 resources:
   Resources:
