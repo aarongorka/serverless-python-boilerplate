@@ -36,7 +36,7 @@ def {{ cookiecutter.handler }}(event, context):
 
     response = {
         "statusCode": 200,
-        "body": thing
+        "body": thing,
         'headers': {
             'Content-Type': 'application/json',
         }
