@@ -31,6 +31,7 @@ services:
     entrypoint: []
     volumes:
       - ./:/usr/src/app:Z
+      - ~/.cache:/.cache:Z
     logging:
       driver: gelf
       options:

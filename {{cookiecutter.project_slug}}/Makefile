@@ -77,10 +77,10 @@ $(DOTENV):
 
 _build: requirements.txt
 	pip install -r requirements.txt -t $(PACKAGE_DIR)
-
-$(ARTIFACT_PATH): $(DOTENV_TARGET) src/
-	cp -pr src/ $(PACKAGE_DIR)
+	cp -pr {{cookiecutter.project_slug}} $(PACKAGE_DIR)
 	cd $(PACKAGE_DIR) && zip -rq ../package .
+
+$(ARTIFACT_PATH): $(DOTENV_TARGET) _build
 
 # Install node_modules for serverless plugins
 _deps: node_modules.zip
