@@ -6,6 +6,7 @@ provider:
   stage: ${env:ENV}
   memorySize: 128
   timeout: 10
+  versionFunctions: false
   region: ${env:AWS_REGION}
   variableSyntax: "\\${(?!AWS::)((?:self|env):[ :a-zA-Z0-9._,\\-\\/\\(\\)]+?)}"
   stackTags:
