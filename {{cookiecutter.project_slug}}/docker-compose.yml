@@ -17,14 +17,12 @@ services:
   lambda:
     image: lambci/lambda:python3.6
     env_file: .env
-    working_dir: /usr/src/app
-    entrypoint: []
     volumes:
-      - ./:/usr/src/app:Z
+      - ./package/package:/var/task:Z
     logging:
-      driver: syslog
+      driver: gelf
       options:
-        syslog-address: "tcp://127.0.0.1:9001"
+        gelf-address: "udp://127.0.0.1:12201"
   lambda-build:
     image: lambci/lambda:build-python3.6
     env_file: .env
