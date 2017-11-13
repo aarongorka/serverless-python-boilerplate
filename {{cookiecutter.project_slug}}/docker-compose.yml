@@ -7,6 +7,7 @@ services:
       - ~/.aws:/root/.aws:Z
       - ~/.ssh:/root/.ssh:Z
       - .:/opt/app:Z
+      - ~/.yarn-cache:/usr/local/share/.cache/yarn/v1:Z
   pep8:
     image: eeacms/pep8
     volumes:
