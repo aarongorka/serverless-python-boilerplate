@@ -3,6 +3,7 @@ import os
 import logging
 import aws_lambda_logging
 import json
+import uuid
 
 aws_lambda_logging.setup(level=os.environ.get('LOGLEVEL', 'INFO'), env=os.environ.get('ENV'))
 logging.info(json.dumps({'message': 'initialising'}))
