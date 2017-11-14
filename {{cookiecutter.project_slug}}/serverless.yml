@@ -1,4 +1,4 @@
-service: MV-${env:REALM}-{{ cookiecutter.repo_name }}
+service: MV-${env:REALM}-{{ cookiecutter.aws_stack }}
 
 provider:
   name: aws

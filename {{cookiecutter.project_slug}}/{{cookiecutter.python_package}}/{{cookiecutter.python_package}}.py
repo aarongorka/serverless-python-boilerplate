@@ -4,6 +4,8 @@ import logging
 import aws_lambda_logging
 import json
 import uuid
+from dateutil.tz import tzlocal
+from dateutil.tz import tzutc
 
 aws_lambda_logging.setup(level=os.environ.get('LOGLEVEL', 'INFO'), env=os.environ.get('ENV'))
 logging.info(json.dumps({'message': 'initialising'}))
@@ -37,7 +39,7 @@ def {{ cookiecutter.handler }}(event, context):
 
     response = {
         "statusCode": 200,
-        "body": thing,
+        "body": json.dumps(thing),
         'headers': {
             'Content-Type': 'application/json',
         }
