@@ -19,6 +19,7 @@ Using [docker-cookiecutter](https://github.com/amaysim-au/docker-cookiecutter), 
 ```bash
 alias cookiecutter='docker run --rm -it --user $(id -u):$(id -g) -v $(pwd):/srv/app:Z -v ${HOME}/.ssh:/home/cookiecutter/.ssh:Z amaysim/cookiecutter:1.5.1'
 ```
+## Cloning
 Once you have `cookiecutter` installed, clone the template and follow the prompts:
 ```bash
 cookiecutter git@github.com:amaysim-au/serverless-python-boilerplate.git
