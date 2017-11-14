@@ -6,12 +6,10 @@ endif
 ################
 # Entry Points #
 ################
-test: clone env recursive
+test: clone recursive
 
 clone:
 	docker-compose run $(USER_SETTINGS) --rm cookiecutter --no-input --overwrite-if-exists . project_name="Python Test Project"
-
-env:
 	$(MAKE) -C python-test-project .env
 
 recursive:
