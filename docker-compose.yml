@@ -1,0 +1,7 @@
+version: '3'
+services:
+  cookiecutter:
+    image: amaysim/cookiecutter:1.5.1
+    volumes:
+      - ~/.ssh:/root/.ssh:Z
+      - .:/srv/app:Z

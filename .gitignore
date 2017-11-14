@@ -1,0 +1,5 @@
+# Serverless directories
+.serverless
+.env*
+!.env.template
+python-test-project/

@@ -28,6 +28,9 @@ build: $(DOTENV_TARGET)
 deploy: $(ENV_RM_REQUIRED) $(DOTENV_TARGET) $(ASSUME_REQUIRED)
 	docker-compose run $(USER_SETTINGS) --rm serverless make _deploy
 
+logs: $(ENV_RM_REQUIRED) $(DOTENV_TARGET) $(ASSUME_REQUIRED)
+	docker-compose run $(USER_SETTINGS) --rm serverless make _logs
+
 unitTest: $(ASSUME_REQUIRED) $(DOTENV_TARGET)
 	docker-compose run $(USER_SETTINGS) --rm lambda {{ cookiecutter.python_package }}.unit_test
 
@@ -94,6 +97,12 @@ _deploy: $(ARTIFACT_PATH) node_modules.zip
 	unzip -qo -d . node_modules.zip
 	rm -fr .serverless
 	sls deploy -v
+
+_smokeTest:
+	sls invoke -f {{ cookiecutter.handler }}
+
+_logs:
+	sls logs -f {{ cookiecutter.handler }} --startTime 5m -t
 
 _remove:
 	sls remove -v

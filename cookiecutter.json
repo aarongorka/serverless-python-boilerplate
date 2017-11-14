@@ -4,7 +4,7 @@
     "project_short_description": "A short description to add to Github",
     "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
     "python_package": "{{ cookiecutter.project_slug.replace('-', '_') }}",
-    "aws_stack": "{{ cookiecutter.project_slug.capitalize() }}",
+    "aws_stack": "{{ cookiecutter.project_name.replace(' ', '-' ) }}",
     "handler": "handler"
 }
 

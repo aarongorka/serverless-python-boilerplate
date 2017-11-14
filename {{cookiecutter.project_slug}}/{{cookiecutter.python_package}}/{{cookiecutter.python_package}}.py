@@ -11,6 +11,7 @@ aws_lambda_logging.setup(level=os.environ.get('LOGLEVEL', 'INFO'), env=os.enviro
 logging.info(json.dumps({'message': 'initialising'}))
 aws_lambda_logging.setup(level=os.environ.get('LOGLEVEL', 'INFO'), env=os.environ.get('ENV'))
 
+
 def {{ cookiecutter.handler }}(event, context):
     """Handler for {{ cookiecutter.repo_name }}"""
     correlation_id = get_correlation_id(event=event)
@@ -36,7 +37,6 @@ def {{ cookiecutter.handler }}(event, context):
         }
         return response
 
-
     response = {
         "statusCode": 200,
         "body": json.dumps(thing),
@@ -46,6 +46,7 @@ def {{ cookiecutter.handler }}(event, context):
     }
     logging.info(json.dumps({'message': 'responding', 'response': response}))
     return response
+
 
 def get_correlation_id(body=None, payload=None, event=None):
     correlation_id = None
