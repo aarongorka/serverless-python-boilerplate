@@ -1,4 +1,5 @@
 ifdef GO_PIPELINE_NAME
+	USER_SETTINGS=--user 0:0
 else
 	USER_SETTINGS=--user $(shell id -u):$(shell id -g)
 endif
