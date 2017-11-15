@@ -1,2 +1,2 @@
-# serverless-python-boilerplate
-Boilerplate for creating new Python Serverless projects
+# {{ cookiecutter.project_name }}
+Created with [Serverless Python Boilerplate](https://github.com/amaysim-au/serverless-python-boilerplate)
