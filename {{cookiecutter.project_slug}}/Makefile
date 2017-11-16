@@ -80,13 +80,14 @@ $(DOTENV):
 
 venv:
 	virtualenv --python=python3.6 --always-copy venv
+	sed -i '43s/.*/VIRTUAL_ENV="$$(dirname "$$(dirname "$${BASH_SOURCE[0]}" )")"/' venv/bin/activate  # bin/activate hardcodes the path when you create it making it unusable outside the container, this patch makes it dynamic. Double dollar signs to escape in the Makefile.
 
 _build: venv requirements.txt
 	mkdir -p $(PACKAGE_DIR)
 	sh -c 'source venv/bin/activate && pip install -r requirements.txt'
 	cp -a venv/lib/python3.6/site-packages/. $(PACKAGE_DIR)/
 	cp -a {{ cookiecutter.python_package }}/. $(PACKAGE_DIR)/
-	cd $(PACKAGE_DIR) && python -O -m compileall .
+	@cd $(PACKAGE_DIR) && python -O -m compileall -q .  # creates .pyc files which might speed up initial loading in Lambda
 	cd $(PACKAGE_DIR) && zip -rq ../package .
 
 $(ARTIFACT_PATH): $(DOTENV_TARGET) _build
@@ -98,7 +99,7 @@ node_modules.zip:
 	yarn install --no-bin-links
 	zip -rq node_modules.zip node_modules/
 
-_deploy: $(ARTIFACT_PATH) node_modules.zip
+_deploy: node_modules.zip
 	mkdir -p node_modules
 	unzip -qo -d . node_modules.zip
 	rm -fr .serverless
