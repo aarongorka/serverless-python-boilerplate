@@ -6,7 +6,7 @@ Powered by [Cookiecutter](https://github.com/audreyr/cookiecutter), this is a te
   * Log shipping powered by [serverless-log-forwarding](https://github.com/amplify-education/serverless-log-forwarding) to ship logs to Sumo Logic
   * Monitoring powered by [serverless-plugin-aws-alerts](https://github.com/ACloudGuru/serverless-plugin-aws-alerts) using CloudWatch metrics
   * JSON formatted logging powered by [aws_lambda_logging](https://gitlab.com/hadrien/aws_lambda_logging) including correlation IDs and `LOGLEVEL` settings
-  * Dependency management with `pip` and [requirements.txt]({{cookiecutter.project_slug}}/requirements.txt)
+  * Dependency management with `pip`, `virtualenv` and [requirements.txt]({{cookiecutter.project_slug}}/requirements.txt)
   * The ability to invoke your Lambda locally powered by [docker-lambda](https://github.com/lambci/docker-lambda/)
   * Docker, docker-compose and make as the only dependencies required to deploy
 
