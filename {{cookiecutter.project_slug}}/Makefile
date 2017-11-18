@@ -81,6 +81,7 @@ $(DOTENV):
 venv:
 	python3.6 -m venv --copies venv
 	sed -i '43s/.*/VIRTUAL_ENV="$$(cd "$$(dirname "$$(dirname "$${BASH_SOURCE[0]}" )")" \&\& pwd)"/' venv/bin/activate  # bin/activate hardcodes the path when you create it making it unusable outside the container, this patch makes it dynamic. Double dollar signs to escape in the Makefile.
+	sed -i '1s/.*/#!\/usr\/bin\/env python/' venv/bin/pip*
 
 _build: venv requirements.txt
 	mkdir -p $(PACKAGE_DIR)
