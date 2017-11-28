@@ -1,7 +1,9 @@
 ifdef GO_PIPELINE_NAME
 	USER_SETTINGS=--user 0:0
 else
-	USER_SETTINGS=--user $(shell id -u):$(shell id -g)
+	ifeq ($(shell uname -s),Linux)
+		USER_SETTINGS=--user $(shell id -u):$(shell id -g)
+	endif
 endif
 
 ################
@@ -17,4 +19,4 @@ recursive:
 	$(MAKE) -C python-test-project deps build styleTest run deploy smokeTest remove
 
 _clean:
-	rm -fr test-project
+	rm -fr python-test-project
