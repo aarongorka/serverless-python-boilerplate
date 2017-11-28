@@ -16,7 +16,7 @@ clone:
 	$(MAKE) -C python-test-project .env
 
 recursive:
-	$(MAKE) -C python-test-project deps build styleTest run deploy smokeTest remove
+	$(MAKE) -C python-test-project deps build styleTest run #deploy smokeTest remove
 
 _clean:
 	rm -fr python-test-project
