@@ -18,17 +18,17 @@ def {{ cookiecutter.handler }}(event, context):
     aws_lambda_logging.setup(level=os.environ.get('LOGLEVEL', 'INFO'), env=os.environ.get('ENV'), correlation_id=correlation_id)
 
     try:
-        logging.debug(json.dumps({'message': 'logging event', 'status': 'success', 'event': event}))
+        logging.debug(json.dumps({'message': 'logging event', 'event': event}))
     except:
-        logging.exception(json.dumps({'message': 'logging event', 'status': 'failed'}))
+        logging.exception(json.dumps({'message': 'logging event'}))
         raise
 
     try:
         # do a thing
         thing = event
-        logging.debug(json.dumps({'message': 'thing', 'status': 'success', 'thing': thing}))
+        logging.debug(json.dumps({'message': 'thing', 'thing': thing}))
     except:
-        logging.exception(json.dumps({"message": "thing", "status": "failed"}))
+        logging.exception(json.dumps({"message": "thing"}))
         response = {
             "statusCode": 503,
             'headers': {
