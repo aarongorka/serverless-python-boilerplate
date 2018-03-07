@@ -44,6 +44,7 @@ styleTest: $(DOTENV_TARGET)
 	docker-compose run $(USER_SETTINGS) --rm pep8 --ignore 'E501,E128' {{ cookiecutter.python_package }}/*.py
 
 run: $(DOTENV_TARGET)
+	cp -a {{ cookiecutter.python_package }}/. $(PACKAGE_DIR)/
 	docker-compose run $(USER_SETTINGS) --rm lambda {{ cookiecutter.python_package }}.{{ cookiecutter.handler }}
 
 assumeRole: $(DOTENV_TARGET)
