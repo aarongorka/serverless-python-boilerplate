@@ -2,10 +2,14 @@
 import os
 import logging
 import aws_lambda_logging
+from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.core import patch_all
 import json
 import uuid
 from dateutil.tz import tzlocal
 from dateutil.tz import tzutc
+
+patch_all()  # instrument libraries with xray
 
 aws_lambda_logging.setup(level=os.environ.get('LOGLEVEL', 'INFO'), env=os.environ.get('ENV'))
 logging.info(json.dumps({'message': 'initialising'}))
