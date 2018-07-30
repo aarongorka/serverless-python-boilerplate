@@ -11,8 +11,6 @@ ifdef AWS_ROLE
 endif
 ifdef GO_PIPELINE_NAME
 	ENV_RM_REQUIRED?=rm_env
-else
-	USER_SETTINGS=--user $(shell id -u):$(shell id -g)
 endif
 
 
@@ -20,32 +18,32 @@ endif
 # Entry Points #
 ################
 deps: $(DOTENV_TARGET)
-	docker-compose run $(USER_SETTINGS) --rm serverless make _deps
+	docker-compose run --rm serverless make _deps
 
 build: $(DOTENV_TARGET)
-	docker-compose run $(USER_SETTINGS) --rm lambda-build make _build
+	docker-compose run --rm lambda-build make _build
 
 deploy: $(ENV_RM_REQUIRED) $(DOTENV_TARGET) $(ASSUME_REQUIRED)
-	docker-compose run $(USER_SETTINGS) --rm serverless make _deploy
+	docker-compose run --rm serverless make _deploy
 
 logs: $(ENV_RM_REQUIRED) $(DOTENV_TARGET) $(ASSUME_REQUIRED)
-	docker-compose run $(USER_SETTINGS) --rm serverless make _logs
+	docker-compose run --rm serverless make _logs
 
 unitTest: $(ASSUME_REQUIRED) $(DOTENV_TARGET)
-	docker-compose run $(USER_SETTINGS) --rm lambda {{ cookiecutter.python_package }}.unit_test
+	docker-compose run --rm lambda {{ cookiecutter.python_package }}.unit_test
 
 smokeTest: $(DOTENV_TARGET) $(ASSUME_REQUIRED)
-	docker-compose run $(USER_SETTINGS) --rm serverless make _smokeTest
+	docker-compose run --rm serverless make _smokeTest
 
 remove: $(DOTENV_TARGET)
-	docker-compose run $(USER_SETTINGS) --rm serverless make _deps _remove
+	docker-compose run --rm serverless make _deps _remove
 
 styleTest: $(DOTENV_TARGET)
-	docker-compose run $(USER_SETTINGS) --rm pep8 --ignore 'E501,E128' {{ cookiecutter.python_package }}/*.py
+	docker-compose run --rm pep8 --ignore 'E501,E128' {{ cookiecutter.python_package }}/*.py
 
 run: $(DOTENV_TARGET)
 	cp -a {{ cookiecutter.python_package }}/. $(PACKAGE_DIR)/
-	docker-compose run $(USER_SETTINGS) --rm lambda {{ cookiecutter.python_package }}.{{ cookiecutter.handler }}
+	docker-compose run --rm lambda {{ cookiecutter.python_package }}.{{ cookiecutter.handler }}
 
 assumeRole: $(DOTENV_TARGET)
 	docker run --rm -e "AWS_ACCOUNT_ID" -e "AWS_ROLE" amaysim/aws:1.1.3 assume-role.sh >> .env
@@ -53,7 +51,7 @@ assumeRole: $(DOTENV_TARGET)
 test: $(DOTENV_TARGET) styleTest unitTest
 
 shell: $(DOTENV_TARGET)
-	docker-compose run $(USER_SETTINGS) --rm lambda-build sh
+	docker-compose run --rm lambda-build sh
 
 ##########
 # Others #
