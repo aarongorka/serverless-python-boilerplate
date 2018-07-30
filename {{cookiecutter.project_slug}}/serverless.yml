@@ -7,6 +7,7 @@ provider:
   memorySize: 128
   timeout: 10
   versionFunctions: false
+  tracing: true
   region: ${env:AWS_REGION}
   variableSyntax: "\\${(?!AWS::)((?:self|env):[ :a-zA-Z0-9._,\\-\\/\\(\\)]+?)}"
   stackTags:
@@ -15,6 +16,12 @@ provider:
     ENV: ${env:ENV}
     LOGLEVEL: ${env:LOGLEVEL}
     REALM: ${env:REALM}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Resource: "*"
+      Action:
+        - "xray:PutTraceSegments"
+        - "xray:PutTelemetryRecords"
 
 package:
   artifact: package/package.zip
@@ -22,6 +29,7 @@ package:
 plugins:
   - serverless-log-forwarding
   - serverless-plugin-aws-alerts
+  - serverless-plugin-tracing
 
 custom:
   logForwarding:
